@@ -2,6 +2,7 @@ import json
 import os
 
 from discord.ext import commands
+from discord.utils import get
 
 bot = commands.Bot(command_prefix="b!")
 
@@ -25,14 +26,26 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
-    if message.author != bot.user:
-        pass
     await bot.process_commands(message)
+    if message.guild is None:
+        await bot.process_commands(message)
+        return
+    if message.author != bot.user:
+        config = json.loads(open('config.json', 'r').read())
+        # Check if the user is attempting to verify, if not then delete the message and send them a notice in DM
+        verify_channel = config[str(message.guild.id)]['verification_channel']
+        unverified_role = get(message.author.guild.roles, name="Unverified")
+        if unverified_role in message.author.roles and (message.channel.id != verify_channel and message.content != "b!verify"):
+            await message.channel.purge(limit=1)
+            await message.author.send("You have not verified your account, please type 't!verify' in your server's verification channel")
 
 
 @bot.event
 async def on_member_join(member):
-    return
+    config = json.loads(open('config.json', 'r').read())
+    if config[str(member.guild.id)]['verification_enabled']:
+        role = get(member.guild.roles, id=config[str(member.guild.id)]["verification_role"])
+        await member.add_roles(role)
 
 
 @bot.event
