@@ -52,8 +52,12 @@ class Verification(commands.Cog):
         # If they pass, remove the unverified role
         config = json.loads(open('config.json', 'r').read())
         role = get(ctx.guild.roles, id=config[str(ctx.guild.id)]["verification_role"])
-
         await ctx.message.author.remove_roles(role)
+
+    @verify.error
+    async def verify_error(self, ctx, error):
+        if isinstance(error, commands.CommandInvokeError):
+            await ctx.message.author.send("Command timeout! Please rerun the command to verify")
 
 
 def setup(bot):
