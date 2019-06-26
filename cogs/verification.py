@@ -47,14 +47,16 @@ class Verification(commands.Cog):
         challenge_selection = randint(0,1)
         if challenge_selection == 1:
             random_phrase = f'{randomint(1,9)}{choice("+","-","*")}{randint(1,9)}{choice("+","-","*")}{randint(1,9)}'
+            answer_value = eval(random_phrase)
         else:
             # Pick three random words and DM them to the user
             random_phrase = ' '.join(choices(words, k=3))
         insertion_point = randint(1,len(random_phrase)-2)
         random_phrase_modded = f'{random_phrase[:insertion_point]}​{random_phrase[insertion_point+1:]}'.replace('o','ο').replace('e','е').replace('a','а').replace('i','і')
+        expected_answer = answer_value if challenge_selection == 1 else random_phrase
         await ctx.message.author.send(f"Please reply with the following phrase: {random_phrase_modded}")
         # Wait for 30 seconds for the user to send back the verification phrase
-        await self.bot.wait_for("message", timeout=30, check=lambda message: message.content == random_phrase)
+        await self.bot.wait_for("message", timeout=30, check=lambda message: message.content == expected_answer)
         await ctx.message.author.send("Verification complete 👍")
         # If they pass, remove the unverified role
         config = json.loads(open('config.json', 'r').read())
