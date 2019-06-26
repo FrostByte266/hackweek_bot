@@ -37,6 +37,8 @@ async def on_message(message):
             await message.channel.purge(limit=1)
             await message.author.send("You have not verified your account, please type 'b!verify' in your server's verification channel")
 
+    await bot.process_commands(message)
+
 
 @bot.event
 async def on_member_join(member):
