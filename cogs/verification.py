@@ -49,7 +49,7 @@ class Verification(commands.Cog):
         if challenge_selection == 1:
 
             random_phrase = f'{randint(1,9)}{choice(["+","-","*"])}{randint(1,9)}{choice(["+","-","*"])}{randint(1,9)}'
-            answer_value = eval(random_phrase)
+            answer_value = str(eval(random_phrase))
         else:
             # Pick three random words and DM them to the user
             random_phrase = ' '.join(choices(words, k=3))
