@@ -1,6 +1,6 @@
 import aiohttp
 import json
-from random import choices
+from random import choice, choices
 from random import randint
 
 from discord.ext import commands
@@ -46,7 +46,7 @@ class Verification(commands.Cog):
 
         challenge_selection = randint(0,1)
         if challenge_selection == 1:
-            random_phrase = f'{randomint(1,9)}{choice("+","-","*")}{randint(1,9)}{choice("+","-","*")}{randint(1,9)}'
+            random_phrase = f'{randint(1,9)}{choice(["+","-","*"])}{randint(1,9)}{choice(["+","-","*"])}{randint(1,9)}'
             answer_value = eval(random_phrase)
         else:
             # Pick three random words and DM them to the user
@@ -66,7 +66,7 @@ class Verification(commands.Cog):
     @verify.error
     async def verify_error(self, ctx, error):
         if isinstance(error, commands.CommandInvokeError):
-            await ctx.message.author.send("Command timeout! Please rerun the command to verify")
+            await ctx.message.author.send(f"Command timeout! Please rerun the command to verify (DEBUG: {error}")
 
 
 def setup(bot):
