@@ -6,7 +6,6 @@ from discord.utils import get
 
 bot = commands.Bot(command_prefix="b!")
 
-
 @bot.event
 async def on_ready():
     print("Ready")
@@ -36,7 +35,7 @@ async def on_message(message):
         unverified_role = get(message.author.guild.roles, name="Unverified")
         if unverified_role in message.author.roles and (message.channel.id != verify_channel and message.content != "b!verify"):
             await message.channel.purge(limit=1)
-            await message.author.send("You have not verified your account, please type 't!verify' in your server's verification channel")
+            await message.author.send("You have not verified your account, please type 'b!verify' in your server's verification channel")
 
 
 @bot.event

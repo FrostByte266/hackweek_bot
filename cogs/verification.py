@@ -1,6 +1,7 @@
 import aiohttp
 import json
 from random import choices
+from random import randint
 
 from discord.ext import commands
 from discord.utils import get
@@ -43,9 +44,15 @@ class Verification(commands.Cog):
                 words = text.splitlines()
             await client.close()
 
-        # Pick three random words and DM them to the user
-        random_phrase = ' '.join(choices(words, k=3))
-        await ctx.message.author.send(f"Please reply with the following phrase: {random_phrase}")
+        challenge_selection = randint(0,1)
+        if challenge_selection == 1:
+            random_phrase = f'{randomint(1,9)}{choice("+","-","*")}{randint(1,9)}{choice("+","-","*")}{randint(1,9)}'
+        else:
+            # Pick three random words and DM them to the user
+            random_phrase = ' '.join(choices(words, k=3))
+        insertion_point = randint(1,len(random_phrase)-2)
+        random_phrase_modded = f'{random_phrase[:insertion_point]}​{random_phrase[insertion_point+1:]}'.replace('o','ο').replace('e','е').replace('a','а').replace('i','і')
+        await ctx.message.author.send(f"Please reply with the following phrase: {random_phrase_modded}")
         # Wait for 30 seconds for the user to send back the verification phrase
         await self.bot.wait_for("message", timeout=30, check=lambda message: message.content == random_phrase)
         await ctx.message.author.send("Verification complete 👍")
