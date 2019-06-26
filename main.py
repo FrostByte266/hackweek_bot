@@ -37,6 +37,7 @@ async def on_message(message):
         if unverified_role in message.author.roles and (message.channel.id != verify_channel and message.content != "b!verify"):
             await message.channel.purge(limit=1)
             await message.author.send("You have not verified your account, please type 't!verify' in your server's verification channel")
+    await bot.process_commands(message)
 
 
 @bot.event
