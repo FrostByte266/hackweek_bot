@@ -1,10 +1,13 @@
+from datetime import datetime
 import json
 import os
 
+from discord import Embed
 from discord.ext import commands
 from discord.utils import get
 
 bot = commands.Bot(command_prefix="b!")
+
 
 @bot.event
 async def on_ready():
@@ -47,10 +50,32 @@ async def on_member_join(member):
         role = get(member.guild.roles, id=config[str(member.guild.id)]["verification_role"])
         await member.add_roles(role)
 
+    # Prepare welcome embed
+    embed = Embed(color=0x9370DB, description=f'Welcome to the server! You are member number {len(list(member.guild.members))}')
+    embed.set_thumbnail(url=member.avatar_url)
+    embed.set_author(name=member.name, icon_url=member.avatar_url)
+    embed.set_footer(text=member.guild, icon_url=member.guild.icon_url)
+    embed.timestamp = datetime.utcnow()
+
+    # Get the server message channel and send welcome message there
+    channel = bot.get_channel(id=member.guild.system_channel.id)
+
+    await channel.send(embed=embed)
+
 
 @bot.event
 async def on_member_remove(member):
-    return
+    # Prepare goodbye embed
+    embed = Embed(color=0x9370DB, description=f'Goodbye! Thank you for spending time with us!')
+    embed.set_thumbnail(url=member.avatar_url)
+    embed.set_author(name=member.name, icon_url=member.avatar_url)
+    embed.set_footer(text=member.guild, icon_url=member.guild.icon_url)
+    embed.timestamp = datetime.utcnow()
+
+    # Get the server message channel and send goodbye message there
+    channel = bot.get_channel(id=member.guild.system_channel.id)
+
+    await channel.send(embed=embed)
 
 
 @bot.event
