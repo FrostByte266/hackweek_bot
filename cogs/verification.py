@@ -54,7 +54,7 @@ class Verification(commands.Cog):
             # Pick three random words and DM them to the user
             random_phrase = ' '.join(choices(words, k=3))
         insertion_point = randint(1,len(random_phrase)-2)
-        random_phrase_modded = f'{random_phrase[:insertion_point]}​{random_phrase[insertion_point+1:]}'.replace('o','ο').replace('e','е').replace('a','а').replace('i','і')
+        random_phrase_modded = f'{random_phrase[:insertion_point+1]}​{random_phrase[insertion_point+1:]}'.replace('o','ο').replace('e','е').replace('a','а').replace('i','і')
         expected_answer = answer_value if challenge_selection == 1 else random_phrase
         await ctx.message.author.send(f"Please reply with the following {challenge_wording[challenge_selection]}: {random_phrase_modded}")
         # Wait for 30 seconds for the user to send back the verification phrase
