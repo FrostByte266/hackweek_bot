@@ -45,7 +45,9 @@ class Verification(commands.Cog):
             await client.close()
 
         challenge_selection = randint(0,1)
+        challenge_wording = ['computation', 'phrase']
         if challenge_selection == 1:
+
             random_phrase = f'{randint(1,9)}{choice(["+","-","*"])}{randint(1,9)}{choice(["+","-","*"])}{randint(1,9)}'
             answer_value = eval(random_phrase)
         else:
@@ -54,7 +56,7 @@ class Verification(commands.Cog):
         insertion_point = randint(1,len(random_phrase)-2)
         random_phrase_modded = f'{random_phrase[:insertion_point]}​{random_phrase[insertion_point+1:]}'.replace('o','ο').replace('e','е').replace('a','а').replace('i','і')
         expected_answer = answer_value if challenge_selection == 1 else random_phrase
-        await ctx.message.author.send(f"Please reply with the following phrase: {random_phrase_modded}")
+        await ctx.message.author.send(f"Please reply with the following {challenge_wording}: {random_phrase_modded}")
         # Wait for 30 seconds for the user to send back the verification phrase
         await self.bot.wait_for("message", timeout=30, check=lambda message: message.content == expected_answer)
         await ctx.message.author.send("Verification complete 👍")
