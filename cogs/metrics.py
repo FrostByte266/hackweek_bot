@@ -1,6 +1,9 @@
 from discord.ext import commands
 from discord import File
+from pandas import DataFrame
+from datetime import datetime
 import matplotlib.pyplot as plt
+
 
 
 class Metrics(commands.Cog):
@@ -16,9 +19,8 @@ class Metrics(commands.Cog):
 		num_roles = len(roles_dict)
 		# Create plot
 		plot_range = range(num_roles)
-		plt.figure(figsize=(num_roles*2, 10))
-		plt.bar(plot_range,  list(roles_dict.values()),width=.4, align='center')
-		plt.xticks(plot_range, list(roles_dict.keys()),rotation=90)
+		data_frame = DataFrame.from_dict(roles_dict).sort_values(ascending=False)
+		data_frame.plot(title=f"{ctx.guild.name} roles on {datetime.today().strftime('%Y-%m-%d')}",kind='bar', width = .2,rot=90,range=plot_range)
 		# One roles images per server
 		image_path = f'./assets/role_charts/{ctx.guild.id}.png'
 		plt.savefig(image_path)
