@@ -14,12 +14,12 @@ class Metrics(commands.Cog):
 	@commands.command()
 	async def plot(self,ctx):
 		# Create dict of role names and the number of members in each
-		roles_dict = {role.name: len(role.members) for role in ctx.guild.roles}
+		roles_dict = {role.name: [len(role.members)] for role in ctx.guild.roles}
 		roles_dict.pop('@everyone',None)
 		num_roles = len(roles_dict)
 		# Create plot
 		plot_range = range(num_roles)
-		data_frame = DataFrame.from_dict(roles_dict,index=[0]).sort_values(ascending=False)
+		data_frame = DataFrame.from_dict(roles_dict).sort_values(ascending=False)
 		data_frame.plot(title=f"{ctx.guild.name} roles on {datetime.today().strftime('%Y-%m-%d')}",kind='bar', width = .2,rot=90,range=plot_range)
 		# One roles images per server
 		image_path = f'./assets/role_charts/{ctx.guild.id}.png'
