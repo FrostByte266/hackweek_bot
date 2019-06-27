@@ -17,7 +17,7 @@ class Metrics(commands.Cog):
 		# Create plot
 		plot_range = range(num_roles)
 		plt.figure(figsize=(num_roles*2, 10))
-		plt.bar(plot_range, list(roles_dict.values()), align='center')
+		plt.bar(plot_range,  list(roles_dict.values()),width=.4, align='center')
 		plt.xticks(plot_range, list(roles_dict.keys()),rotation=90)
 		# One roles images per server
 		image_path = f'./assets/role_charts/{ctx.guild.id}.png'
