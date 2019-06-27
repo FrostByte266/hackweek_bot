@@ -1,7 +1,7 @@
 from asyncio import sleep
 
+from discord import Embed, Member, TextChannel
 from discord.ext import commands
-from discord import Member
 
 
 class Messages(commands.Cog):
@@ -13,8 +13,9 @@ class Messages(commands.Cog):
     @commands.has_permissions(manage_messages=True)
     async def purge(self, ctx, limit: int, target: Member = None):
         """Remove the specified amount of messages"""
+        await ctx.message.delete()
         if target is None:
-            await ctx.message.channel.purge(limit=limit+1)
+            await ctx.message.channel.purge(limit=limit)
         else:
             await ctx.message.channel.purge(limit=limit, check=lambda message: message.author == target)
 
@@ -25,6 +26,33 @@ class Messages(commands.Cog):
             message = await ctx.send("You are missing the manage messages permission!")
             await sleep(3)
             await message.delete()
+
+    @commands.command()
+    @commands.has_permissions(manage_messages=True)
+    async def move(self, ctx, count: int, target: TextChannel, copy: bool = False):
+        """Move/copy specified amount of messages to target channel"""
+        await ctx.message.delete()
+        messages = []
+        async for message in ctx.message.channel.history(limit=count):
+            embed = Embed(description=message.content)
+            embed.set_author(name=message.author.name, icon_url=message.author.avatar_url)
+            embed.timestamp = message.created_at
+            messages.append(embed)
+            if not copy:
+                await message.delete()
+
+        await target.send(f'Moved from {ctx.message.channel.mention}:')
+
+        for embed in reversed(messages):
+            await target.send(embed=embed)
+
+    @move.error
+    async def move_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.message.delete()
+            temp = await ctx.send("Error! Missing one or more of the following arguments: count, target")
+            await sleep(3)
+            await temp.delete()
 
 
 def setup(bot):
