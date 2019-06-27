@@ -83,10 +83,10 @@ class Verification(commands.Cog):
         role = get(ctx.guild.roles, id=config[str(ctx.guild.id)]["verification_role"])
         await ctx.message.author.remove_roles(role)
 
-    # @verify.error
-    # async def verify_error(self, ctx, error):
-    #     if isinstance(error, commands.CommandInvokeError):
-    #         await ctx.message.author.send(f"Command timeout! Please rerun the command to verify (DEBUG: {error}")
+    @verify.error
+    async def verify_error(self, ctx, error):
+        if isinstance(error, commands.CommandInvokeError):
+            await ctx.message.author.send("Command timeout! Please rerun the command to verify.")
 
 
 def setup(bot):
