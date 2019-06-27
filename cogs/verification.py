@@ -48,6 +48,7 @@ class Verification(commands.Cog):
         challenge_wording = ['computation', 'phrase','single word basic color displayed on the pillow']
         image = None
         random_phrase = ''
+        image_selection = ['','']
         #image color challenge
         if challenge_selection == 2:
             image_answer_pairing = [['blue','https://images-na.ssl-images-amazon.com/images/I/411ZUG63TiL._SX425_.jpg'],
