@@ -3,6 +3,7 @@ import json
 from random import choice, choices
 from random import randint
 
+from discord import File
 from discord.ext import commands
 from discord.utils import get
 
@@ -55,10 +56,10 @@ class Verification(commands.Cog):
 
         #image color challenge
         if challenge_selection == 2:
-            image_answer_pairing = [['blue','https://images-na.ssl-images-amazon.com/images/I/411ZUG63TiL._SX425_.jpg'],
-                                    ['red','https://images-na.ssl-images-amazon.com/images/I/61y4zbrQHEL._SL1000_.jpg'],
-                                    ['white','https://images-na.ssl-images-amazon.com/images/I/61MsgjXYmPL._SX425_.jpg'],
-                                    ['black','https://images-na.ssl-images-amazon.com/images/I/31zuytuTpoL._SX425_.jpg']]
+            image_answer_pairing = [['blue', './assets/blue.jpg'],
+                                    ['red', './assets/red.jpg'],
+                                    ['white', './assets/white.jpg'],
+                                    ['black', './assets/black.jpg']]
             image_selection = image_answer_pairing[randint(0,3)]
         #math challenge
         elif challenge_selection == 1:
@@ -73,7 +74,7 @@ class Verification(commands.Cog):
         random_phrase_modded = f'{random_phrase[:insertion_point+1]}​{random_phrase[insertion_point+1:]}'.replace('o','ο').replace('e','е').replace('a','а').replace('i','і')
 
         expected_answer = [random_phrase,answer_value,image_selection[0]][challenge_selection]
-        await ctx.message.author.send(f"Please reply with the following {challenge_wording[challenge_selection]}: {random_phrase_modded}",files=[image_selection[1]])
+        await ctx.message.author.send(f"Please reply with the following {challenge_wording[challenge_selection]}: {random_phrase_modded}",file=File(image_selection[1]))
         # Wait for 30 seconds for the user to send back the verification phrase
         await self.bot.wait_for("message", timeout=30, check=lambda message: message.content == expected_answer)
         await ctx.message.author.send("Verification complete 👍")
@@ -82,10 +83,10 @@ class Verification(commands.Cog):
         role = get(ctx.guild.roles, id=config[str(ctx.guild.id)]["verification_role"])
         await ctx.message.author.remove_roles(role)
 
-    @verify.error
-    async def verify_error(self, ctx, error):
-        if isinstance(error, commands.CommandInvokeError):
-            await ctx.message.author.send(f"Command timeout! Please rerun the command to verify (DEBUG: {error}")
+    # @verify.error
+    # async def verify_error(self, ctx, error):
+    #     if isinstance(error, commands.CommandInvokeError):
+    #         await ctx.message.author.send(f"Command timeout! Please rerun the command to verify (DEBUG: {error}")
 
 
 def setup(bot):
