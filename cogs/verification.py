@@ -47,7 +47,7 @@ class Verification(commands.Cog):
         challenge_selection = randint(0,2)
         challenge_wording = ['computation', 'phrase','single word basic color displayed on the pillow']
         image = None
-        random_phrase = ''
+        random_phrase = 'default phrase'
         image_selection = ['','']
         #image color challenge
         if challenge_selection == 2:
