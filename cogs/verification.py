@@ -52,7 +52,7 @@ class Verification(commands.Cog):
         random_phrase = 'default phrase'
         image_selection = ['','']
         answer_value = 0
-        
+
         #image color challenge
         if challenge_selection == 2:
             image_answer_pairing = [['blue','https://images-na.ssl-images-amazon.com/images/I/411ZUG63TiL._SX425_.jpg'],
@@ -73,7 +73,7 @@ class Verification(commands.Cog):
         random_phrase_modded = f'{random_phrase[:insertion_point+1]}​{random_phrase[insertion_point+1:]}'.replace('o','ο').replace('e','е').replace('a','а').replace('i','і')
 
         expected_answer = [random_phrase,answer_value,image_selection[0]][challenge_selection]
-        await ctx.message.author.send(f"Please reply with the following {challenge_wording[challenge_selection]}: {random_phrase_modded}",files=image_selection[1])
+        await ctx.message.author.send(f"Please reply with the following {challenge_wording[challenge_selection]}: {random_phrase_modded}",files=[image_selection[1]])
         # Wait for 30 seconds for the user to send back the verification phrase
         await self.bot.wait_for("message", timeout=30, check=lambda message: message.content == expected_answer)
         await ctx.message.author.send("Verification complete 👍")
