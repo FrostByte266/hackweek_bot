@@ -19,7 +19,7 @@ class Metrics(commands.Cog):
 		num_roles = len(roles_dict)
 		# Create plot
 		plot_range = range(num_roles)
-		data_frame = DataFrame.from_dict(roles_dict).sort_values(by=[0],ascending=False)
+		data_frame = DataFrame.from_dict(roles_dict).sort_values(by=1,axis=1,ascending=False)
 		data_frame.plot(title=f"{ctx.guild.name} roles on {datetime.today().strftime('%Y-%m-%d')}",kind='bar', width = .2,rot=90)
 		# One roles images per server
 		image_path = f'./assets/role_charts/{ctx.guild.id}.png'
