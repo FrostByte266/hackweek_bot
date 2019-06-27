@@ -51,7 +51,7 @@ class Verification(commands.Cog):
         #some initilization
         image = None
         random_phrase = 'default phrase'
-        image_selection = ['','']
+        image_selection = ['',None]
         answer_value = 0
 
         #image color challenge
