@@ -44,19 +44,31 @@ class Verification(commands.Cog):
                 words = text.splitlines()
             await client.close()
 
-        challenge_selection = randint(0,1)
-        challenge_wording = ['computation', 'phrase']
-        if challenge_selection == 1:
-
+        challenge_selection = randint(0,2)
+        challenge_wording = ['computation', 'phrase','single word basic color displayed on the pillow']
+        image = None
+        random_phrase = ''
+        #image color challenge
+        if challenge_selection == 2:
+            image_answer_pairing = [['blue','https://images-na.ssl-images-amazon.com/images/I/411ZUG63TiL._SX425_.jpg'],
+                                    ['red','https://images-na.ssl-images-amazon.com/images/I/61y4zbrQHEL._SL1000_.jpg'],
+                                    ['white','https://images-na.ssl-images-amazon.com/images/I/61MsgjXYmPL._SX425_.jpg'],
+                                    ['black','https://images-na.ssl-images-amazon.com/images/I/31zuytuTpoL._SX425_.jpg']]
+            image_selection = image_answer_pairing[randint(0,3)]
+        #math challenge
+        elif challenge_selection == 1:
             random_phrase = f'{randint(1,9)}{choice(["+","-","*"])}{randint(1,9)}{choice(["+","-","*"])}{randint(1,9)}'
             answer_value = str(eval(random_phrase))
+        #phrase challenge
         else:
             # Pick three random words and DM them to the user
             random_phrase = ' '.join(choices(words, k=3))
+
         insertion_point = randint(1,len(random_phrase)-2)
         random_phrase_modded = f'{random_phrase[:insertion_point+1]}​{random_phrase[insertion_point+1:]}'.replace('o','ο').replace('e','е').replace('a','а').replace('i','і')
-        expected_answer = answer_value if challenge_selection == 1 else random_phrase
-        await ctx.message.author.send(f"Please reply with the following {challenge_wording[challenge_selection]}: {random_phrase_modded}")
+
+        expected_answer = [random_phrase,answer_value,image_selection[0]][challenge_selection]
+        await ctx.message.author.send(f"Please reply with the following {challenge_wording[challenge_selection]}: {random_phrase_modded}",files=image_selection[1])
         # Wait for 30 seconds for the user to send back the verification phrase
         await self.bot.wait_for("message", timeout=30, check=lambda message: message.content == expected_answer)
         await ctx.message.author.send("Verification complete 👍")
