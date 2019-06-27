@@ -50,7 +50,7 @@ class Verification(commands.Cog):
 
         #some initilization
         image = None
-        random_phrase = 'default phrase'
+        random_phrase = '( Pillows are so comfy 😊)'
         image_selection = ['',None]
         answer_value = 0
 
