@@ -11,7 +11,8 @@ class Metrics(commands.Cog):
 	@commands.command()
 	async def plot(self,ctx):
 		# Create dict of role names and the number of members in each
-		roles_dict = {role: len(role.members) for role in ctx.guild.roles}
+		roles_dict = {role.name: len(role.members) for role in ctx.guild.roles}
+		roles_dict.pop('@everyone',None)
 		num_roles = len(roles_dict)
 		# Create plot
 		plot_range = range(num_roles)
