@@ -77,9 +77,9 @@ class Verification(commands.Cog):
 			random_phrase = ' '.join(choices(self.verify.words, k=3))
 
 		insertion_point = randint(1, len(random_phrase) - 2)
-		random_phrase_modded = f'{random_phrase[:insertion_point+1]}​{random_phrase[insertion_point+1:]}'.replace('o',
-																												  'ο').replace(
-			'e', 'е').replace('a', 'а').replace('i', 'і')
+		random_phrase_modded = f'{random_phrase[:insertion_point+1]}' \
+								f'​{random_phrase[insertion_point+1:]}' \
+								f''.replace('o', 'ο').replace('e', 'е').replace('a', 'а').replace('i', 'і')
 
 		expected_answer = [random_phrase, answer_value, image_selection[0]][challenge_selection]
 		await ctx.message.author.send(

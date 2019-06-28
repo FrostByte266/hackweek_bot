@@ -63,7 +63,7 @@ class Punishment(commands.Cog):
 	@commands.has_permissions(kick_members=True)
 	async def kick(self, ctx, target: User, *, reason: str):
 		"""Kick the specified user (a report receipt will be send to the recipient and issuer,
-		 and optionally reporting channel if enabled)"""
+		and optionally reporting channel if enabled)"""
 		report = IncidentReport(ctx.message.guild, 'Kick', reason, ctx.message.author, target)
 		receipt = report.generate_receipt()
 		await ctx.message.author.send(
@@ -87,21 +87,22 @@ class Punishment(commands.Cog):
 	@commands.command()
 	@commands.has_permissions(ban_members=True)
 	async def ban(self, ctx, target: User, *, reason: str):
-		"""Ban the specified user (a report receipt will be sent to the recipient and issuer, and optionally reporting channel if enabled)"""
+		"""Ban the specified user (a report receipt will be sent to the recipient and issuer,
+		and optionally reporting channel if enabled)"""
 		report = IncidentReport(ctx.message.guild, 'Ban', reason, ctx.message.author, target)
 		receipt = report.generate_receipt()
 		await ctx.message.author.send(
 			f'User: {target.name}#{target.discriminator} has been banned. The incident report is attached below:',
 			embed=receipt)
 		await target.send(f'You have been banned from {ctx.message.guild}. The incident report is attached below:',
-						  embed=receipt)
+						embed=receipt)
 		await ctx.message.guild.ban(target, reason=reason)
 		await ctx.send(f'User: {target.name}#{target.discriminator} has been banned. Report ID: {report.report_number}')
 		reporting_enabled = True if self.config_full[str(ctx.message.guild.id)][
 										"reporting_channel"] is not None else False
 		if reporting_enabled:
 			report_channel = get(ctx.message.guild.text_channels,
-								 id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"])
+								id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"])
 			await report_channel.send(embed=receipt)
 
 	@ban.error
@@ -124,7 +125,7 @@ class Punishment(commands.Cog):
 										"reporting_channel"] is not None else False
 		if reporting_enabled:
 			report_channel = get(ctx.message.guild.text_channels,
-								 id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"])
+								id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"])
 			await report_channel.send(embed=receipt)
 
 	@hackban.error
@@ -134,7 +135,8 @@ class Punishment(commands.Cog):
 	@commands.command()
 	@commands.has_permissions(ban_members=True)
 	async def unban(self, ctx, target_id: int, *, reason: str):
-		"""Unban the specified user (a report receipt will be sent to the recipient and issuer, and optionally reporting channel if enabled, user ID number required)"""
+		"""Unban the specified user (a report receipt will be sent to the recipient and
+		issuer, and optionally reporting channel if enabled, user ID number required)"""
 		target = await self.bot.fetch_user(target_id)
 		report = IncidentReport(ctx.message.guild, 'Unban', reason, ctx.message.author, target)
 		receipt = report.generate_receipt()
@@ -148,7 +150,7 @@ class Punishment(commands.Cog):
 										"reporting_channel"] is not None else False
 		if reporting_enabled:
 			report_channel = get(ctx.message.guild.text_channels,
-								 id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"])
+								id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"])
 			await report_channel.send(embed=receipt)
 
 	@unban.error
@@ -158,7 +160,8 @@ class Punishment(commands.Cog):
 	@commands.command()
 	@commands.has_permissions(manage_guild=True)
 	async def report(self, ctx, target: User, action: str, *, reason: str):
-		"""Create a custom incident report, action must be one word (receipt will be sent to recipient and issuer, and optionally reporting channel if enabled) """
+		"""Create a custom incident report, action must be one word
+		(receipt will be sent to recipient and issuer, and optionally reporting channel if enabled) """
 		report = IncidentReport(ctx.message.guild, action, reason, ctx.message.author, target)
 		receipt = report.generate_receipt()
 		await ctx.message.author.send(f'Incident report receipt:', embed=receipt)
@@ -167,7 +170,7 @@ class Punishment(commands.Cog):
 										"reporting_channel"] is not None else False
 		if reporting_enabled:
 			report_channel = get(ctx.message.guild.text_channels,
-								 id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"])
+								id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"])
 			await report_channel.send(embed=receipt)
 
 	@report.error
@@ -176,7 +179,8 @@ class Punishment(commands.Cog):
 
 	@commands.command()
 	async def lookup(self, ctx, *, args: str):
-		"""Search for a report by user ID, mention, or report ID number, use b!lookup <report id> --receipt to have a copy sent to you via DM"""
+		"""Search for a report by user ID, mention, or report ID number, use b!lookup <report id> --receipt
+		to have a copy sent to you via DM"""
 		config = self.config_full[str(ctx.message.guild.id)]
 		reports = config["reports"]
 		length_args = len(args.strip())
@@ -193,8 +197,10 @@ class Punishment(commands.Cog):
 					results.append(report_num)
 			if results:
 				for result in results:
-					embed = Embed(title='Incident Report', description=f'Case Number: {reports[result]["report_id"]}',
-								  color=0xff0000)
+					embed = Embed(
+									title='Incident Report', description=f'Case Number: {reports[result]["report_id"]}',
+									color=0xff0000
+								)
 					embed.add_field(name="Issued By:", value=reports[result]["issuer"])
 					embed.add_field(name="Subject:", value=reports[result]["subject"])
 					embed.add_field(name='Action', value=reports[result]["action"])
@@ -214,8 +220,10 @@ class Punishment(commands.Cog):
 					results.append(report_num)
 			if results:
 				for result in results:
-					embed = Embed(title='Incident Report', description=f'Case Number: {reports[result]["report_id"]}',
-								  color=0xff0000)
+					embed = Embed(
+									title='Incident Report', description=f'Case Number: {reports[result]["report_id"]}',
+									color=0xff0000
+								)
 					embed.add_field(name="Issued By:", value=reports[result]["issuer"])
 					embed.add_field(name="Subject:", value=reports[result]["subject"])
 					embed.add_field(name='Action', value=reports[result]["action"])
@@ -227,8 +235,10 @@ class Punishment(commands.Cog):
 			# Looking up by ID as no users were mentioned
 			report = reports.get(args, None)
 			if report is not None:
-				embed = Embed(title='Incident Report', description=f'Case Number: {report["report_id"]}',
-							  color=0xff0000)
+				embed = Embed(
+								title='Incident Report', description=f'Case Number: {report["report_id"]}',
+								color=0xff0000
+							)
 				embed.add_field(name="Issued By:", value=report["issuer"])
 				embed.add_field(name="Subject:", value=report["subject"])
 				embed.add_field(name='Action', value=report["action"])
@@ -243,7 +253,8 @@ class Punishment(commands.Cog):
 	@commands.command()
 	@commands.has_permissions(manage_guild=True)
 	async def recall(self, ctx, report_id: str):
-		"""Clear a single report, you must have the ID number. If you need the report number, use b!lookup <user mention or ID> to find the number"""
+		"""Clear a single report, you must have the ID number. If you need the report number,
+		use b!lookup <user mention or ID> to find the number"""
 		try:
 			config = self.config_full[str(ctx.message.guild.id)]
 			reports = config["reports"]
