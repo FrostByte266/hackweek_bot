@@ -1,13 +1,13 @@
-<b>hackweek_bot</b>
+# Discord hackweek bot
 
-<b>Hackweek Team:</b>
-    Nerd#0614 ,caladanbrood#5363, bAnanaS#6056, MidLoki#6680
+**Hackweek Team:**
+Nerd#0614 ,caladanbrood#5363, bAnanaS#6056, MidLoki#6680
 
-Discord Moderation Bot first developed for discord's HackWeek 2019 contest
-Includes auto incidident reporting feature, a verification feature with three variations, and a roles graph feature
+Discord Moderation Bot first developed for discord's HackWeek 2019 contest.
+Includes auto incident reporting feature, a verification feature with three variations, and a roles graph feature.
 
  
- <b>Terms:</b>
+ **Terms:**
      Discord, Bot, Python, Moderation
 
 <b>Prerequisites</b>
