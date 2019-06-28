@@ -25,3 +25,5 @@
     Incident Reports - When a user is kicked, banned, or unbanned it will auto generate an incident report and a 'receipt' will be sent via DM to both the recipient and the staff member that issued it. 
     Optionally it can post these receipts into a channel. There is also an option to create a custom incident report. These incidents will be preserved through restarts and can be searched with 
     commands.
+    
+    Join/Leave responses - The bot greets people as they come, and wishes them well as they leave.
