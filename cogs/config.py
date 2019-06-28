@@ -12,7 +12,7 @@ class Config(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(manage_guild=True)
-    async def report_receipts(self, ctx, state: bool):
+    async def reporting(self, ctx, state: bool):
         """Enable or disable report receipts being sent in a channel"""
         config = self.config_full[str(ctx.message.guild.id)]
         if state is True and config["reporting_channel"] is None:
