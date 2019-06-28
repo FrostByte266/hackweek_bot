@@ -21,6 +21,7 @@ Discord, Bot, Python, Moderation
 
 * Role statistics - 
     - b!plot - Generate a plot of how many people are assigned to each role in the server
+    
     - b!networkplot - Generate a network graph of role co-occurance.
 * Verification - Users will join as 'unverified', to verify users will be given one of three different types of challenge prompts that they must successfully answer to become a verified member
 
