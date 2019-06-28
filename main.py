@@ -19,8 +19,9 @@ async def on_ready():
             # Add empty config to JSON + initialize all win/loss stats for users
             config[server.id] = {
                 "verification_channel": None,
-                "verification_enabled": False,
-                "verification_role": None
+                "verification_role": None,
+                "reporting_channel": None,
+                "reports": {}
             }
             # Save to config file
             json.dump(config, open('config.json', 'w'), indent=2, separators=(',', ': '))
@@ -31,10 +32,12 @@ async def on_message(message):
     if message.guild is None:
         await bot.process_commands(message)
         return
-    if message.author != bot.user:
-        config = json.loads(open('config.json', 'r').read())
+    config_full = json.loads(open('config.json', 'r').read())
+    config = config_full[str(message.guild.id)]
+    verification_enabled = True if config["verification_channel"] is not None else False
+    if message.author != bot.user and verification_enabled:
         # Check if the user is attempting to verify, if not then delete the message and send them a notice in DM
-        verify_channel = config[str(message.guild.id)]['verification_channel']
+        verify_channel = config['verification_channel']
         unverified_role = get(message.author.guild.roles, name="Unverified")
         if unverified_role in message.author.roles and (message.channel.id != verify_channel and message.content != "b!verify"):
             await message.channel.purge(limit=1)
@@ -45,9 +48,11 @@ async def on_message(message):
 
 @bot.event
 async def on_member_join(member):
-    config = json.loads(open('config.json', 'r').read())
-    if config[str(member.guild.id)]['verification_enabled']:
-        role = get(member.guild.roles, id=config[str(member.guild.id)]["verification_role"])
+    config_full = json.loads(open('config.json', 'r').read())
+    config = config_full[str(member.guild.id)]
+    verification_enabled = True if config["verification_channel"] is not None else False
+    if verification_enabled:
+        role = get(member.guild.roles, id=config["verification_role"])
         await member.add_roles(role)
 
     # Prepare welcome embed
@@ -84,8 +89,9 @@ async def on_guild_join(guild):
     # Create configuration dict to store in JSON
     config[str(guild.id)] = {
         "verification_channel": None,
-        "verification_enabled": False,
-        "verification_role": None
+        "verification_role": None,
+        "reporting_channel": None,
+        "reports": {}
     }
     # Save to config file
     json.dump(config, open('config.json', 'w'), indent=2, separators=(',', ': '))
