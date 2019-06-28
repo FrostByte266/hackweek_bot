@@ -15,11 +15,13 @@ Discord, Bot, Python, Moderation
 * [pandas](https://github.com/pandas-dev/pandas)
 * [matplotlib](https://github.com/matplotlib/matplotlib)
 * [aiohttp](https://github.com/aio-libs/aiohttp)
+* [networkx](https://github.com/networkx)
 
 <b>Features</b>
 
-* Role statistics - Generate a plot of how many people are assigned to each role in the server
-
+* Role statistics - 
+    - b!plot - Generate a plot of how many people are assigned to each role in the server
+    - b!networkplot - Generate a network graph of role co-occurance.
 * Verification - Users will join as 'unverified', to verify users will be given one of three different types of challenge prompts that they must successfully answer to become a verified member
 
 * Incident Reports - When a user is kicked, banned, or unbanned it will auto generate an incident report and a 'receipt' will be sent via DM to both the recipient and the staff member that issued it. 
