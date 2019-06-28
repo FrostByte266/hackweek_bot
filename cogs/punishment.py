@@ -96,6 +96,21 @@ class Punishment(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(ban_members=True)
+    async def hackban(self, ctx, target: int, *, reason: str):
+        """Ban a user not in the server"""
+        user = await self.bot.fetch_user(target)
+        report = IncidentReport(ctx.message.guild, 'Hackban', reason, ctx.message.author, user)
+        receipt = report.generate_receipt()
+        await ctx.message.author.send(f'User: {user.name}#{user.discriminator} has been hackbanned. The incident report is attached below:', embed=receipt)
+        await ctx.message.guild.ban(user, reason=reason)
+        await ctx.send(f'User: {user.name}#{user.discriminator} has been hackbanned. Report ID: {report.report_number}')
+        reporting_enabled = True if self.config_full[str(ctx.message.guild.id)]["reporting_channel"] is not None else False
+        if reporting_enabled:
+            report_channel = get(ctx.message.guild.text_channels, id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"])
+            await report_channel.send(embed=receipt)
+
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
     async def unban(self, ctx, target_id: int, *, reason: str):
         """Unban the specified user (a report receipt will be sent to the recipient and issuer, and optionally reporting channel if enabled, user ID number required)"""
         target = await self.bot.fetch_user(target_id)
