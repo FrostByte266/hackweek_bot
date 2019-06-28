@@ -22,7 +22,7 @@ class Metrics(commands.Cog):
 		data_frame = DataFrame.from_dict(roles_dict).sort_values(by=0,axis=1,ascending=False).transpose()
 		sizing = len(data_frame.columns)*2
 		data_frame.plot(title=f"{ctx.guild.name} roles on {datetime.today().strftime('%Y-%m-%d')}\n"
-							  f"Average: {data_frame.describe().iloc[1].head(1)[0]}  Std. Dev: {data_frame.describe().iloc[2].head(1)[0]}\n"
+							  f"Average: {data_frame.describe().iloc[1].head(1)[0]}  Std. Dev: {round(data_frame.describe().iloc[2].head(1)[0],4)}\n"
 							  f"Higher Quartile: {data_frame.describe().iloc[6].head(1)[0]}  Lower Quartile: {data_frame.describe().iloc[4].head(1)[0]}",
 						kind='bar',
 						width = .2,rot=90,
