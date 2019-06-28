@@ -9,12 +9,13 @@ from discord.utils import get
 
 class Verification(commands.Cog):
     # Closer the number approaches 1, the more often the word list will be refreshed. Linear
-    word_list_refresh_rate = 99
-    word_cache_size = 1000
+
 
     def __init__(self, bot):
         self.bot = bot
         self.config_full = json.loads(open('config.json').read())
+        self.word_list_refresh_rate = 99
+        self.word_cache_size = 1000
 
     @commands.command()
     @commands.has_permissions(manage_guild=True)
