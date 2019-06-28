@@ -114,7 +114,7 @@ class Punishment(commands.Cog):
         await handle_error(ctx, error)
 
     @commands.command()
-    @commands.has_permissions(manage_messages=True)
+    @commands.has_permissions(manage_guild=True)
     async def report(self, ctx, target: User, action: str, *, reason: str):
         """Create a custom incident report, action must be one word (receipt will be sent to recipient and issuer, and optionally reporting channel if enabled) """
         report = IncidentReport(ctx.message.guild, action, reason, ctx.message.author, target)
@@ -132,9 +132,11 @@ class Punishment(commands.Cog):
 
     @commands.command()
     async def lookup(self, ctx, *, args: str):
+        """Search for a report by user ID, mention, or report ID number, use b!lookup <report id> --receipt to have a copy sent to you via DM"""
         config = self.config_full[str(ctx.message.guild.id)]
         reports = config["reports"]
         length_args = len(args.strip())
+        embed = None
         if length_args == 18:
             # User ID has been provided
             user = await self.bot.fetch_user(args)
@@ -187,6 +189,22 @@ class Punishment(commands.Cog):
                 await ctx.send(embed=embed)
             else:
                 await ctx.send('No reports found with the ID number provided')
+        if not ctx.message.mentions and args.endswith("--receipt"):
+            # If user requests a copy of the report, DM it to them (only single reports can be sent via DM)
+            await ctx.message.author.send(embed=embed)
+
+    @commands.command()
+    @commands.has_permissions(manage_guild=True)
+    async def recall(self, ctx, report_id: str):
+        """Clear a single report, you must have the ID number. If you need the report number, use b!lookup <user mention or ID> to find the number"""
+        try:
+            config = self.config_full[str(ctx.message.guild.id)]
+            reports = config["reports"]
+            reports.pop(report_id)
+            json.dump(self.config_full, open('config.json', 'w'), indent=2, separators=(',', ': '))
+            await ctx.send(f'Report #{report_id} successfully cleared!')
+        except KeyError:
+            await ctx.send('No report with that ID was found, double check the ID you entered')
 
 
 def setup(bot):
