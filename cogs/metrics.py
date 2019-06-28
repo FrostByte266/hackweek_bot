@@ -15,17 +15,20 @@ class Metrics(commands.Cog):
 	@commands.command()
 	async def networkplot(self, ctx):
 		# Create dict of role names and the number of members in each
-		roles = [role.name for role in ctx.guild.roles]
-		ctx.guild.member.role
+		roles = [str(role.name) for role in ctx.guild.roles]
+		roles.remove('@everyone')
 
 		df = DataFrame(columns=roles, index=roles)
 		df[:] = int(0)
 
 		for member in ctx.guild.members:
-			for role in member.roles:
-				for co_role in member.roles:
-						df[role.name][co_role.name] += 1
-						df[co_role.name][role.name] += 1
+			member_roles = [role.name for role in member.roles]
+			if '@everyone' in member_roles:
+				member_roles.remove('@everyone')
+			for role in member_roles:
+				for co_role in member_roles:
+						df[role][co_role] += 1
+						df[co_role][role] += 1
 
 		max_connection_weight = df.max().max()
 
@@ -85,26 +88,25 @@ class Metrics(commands.Cog):
 		test = nx.get_edge_attributes(G, 'weight')
 		updated_again_edges = []
 		for i in nx.edges(G):
-			for x in test.iterkeys():
+			for x in test.keys():
 				if i[0] == x[0] and i[1] == x[1]:
 					updated_again_edges.append(test[x])
 
-		# drawing custimization
-		node_scalar = 800
-		edge_scalar = 10
+		#Drawing custimization
+		node_scalar = 1600
+		edge_scalar = 20
 		sizes = [x[1] * node_scalar for x in updated_node_order]
 		widths = [x * edge_scalar for x in updated_again_edges]
 
-		# draw the graph
+		#Draw the graph
 		pos = nx.spring_layout(G, k=0.42, iterations=17)
-
 		plt.title(f'{ctx.guild.name} role co-occurance graph')
 		nx.draw(G, pos, with_labels=True, font_size=8, font_weight='bold',
 				node_size=sizes, width=widths)
 
-		# One co-occurance image per server
+		#One co-occurance image per server
 		image_path = f'./assets/network_charts/{ctx.guild.id}.png'
-		plt.savefig("Graph.png", format="PNG")
+		plt.savefig(image_path, format="PNG")
 		await ctx.message.author.send(f'{ctx.guild.name} roles chart', file=File(image_path))
 
 	@commands.command()
