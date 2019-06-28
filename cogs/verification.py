@@ -44,7 +44,6 @@ class Verification(commands.Cog):
         except AttributeError:
             # Otherwise initialize it on verify function object for persistence
             self.verify.use_count = 1
-        self.verify.use_count += 1
         
         if self.verify.use_count%self.word_list_refresh_rate == 1:
             # Retrieve list of words from MIT page
