@@ -20,7 +20,8 @@ class Metrics(commands.Cog):
 		# Create plot
 		plot_range = range(num_roles)
 		data_frame = DataFrame.from_dict(roles_dict).sort_values(by=0,axis=1,ascending=False).transpose()
-		data_frame.plot(title=f"{ctx.guild.name} roles on {datetime.today().strftime('%Y-%m-%d')}",kind='bar', width = .2,rot=90,fontsize=12,legend=False)
+		sizing = len(data_frame.columns)*2
+		data_frame.plot(title=f"{ctx.guild.name} roles on {datetime.today().strftime('%Y-%m-%d')}",kind='bar', width = .2,rot=90,fontsize=12,legend=False,figsize=(80+(sizing+10)*6,40+(sizing+4)*4))
 		# One roles images per server
 		image_path = f'./assets/role_charts/{ctx.guild.id}.png'
 		plt.draw()
