@@ -70,7 +70,7 @@ class Verification(commands.Cog):
         # Phrase challenge
         else:
             # Pick three random words and DM them to the user
-            random_phrase = ' '.join(choices(words, k=3))
+            random_phrase = ' '.join(choices(self.verify.words, k=3))
 
         insertion_point = randint(1, len(random_phrase)-2)
         random_phrase_modded = f'{random_phrase[:insertion_point+1]}​{random_phrase[insertion_point+1:]}'.replace('o', 'ο').replace('e', 'е').replace('a', 'а').replace('i', 'і')
