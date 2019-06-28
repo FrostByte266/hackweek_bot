@@ -23,6 +23,8 @@ class Metrics(commands.Cog):
 		data_frame.plot(title=f"{ctx.guild.name} roles on {datetime.today().strftime('%Y-%m-%d')}",kind='bar', width = .2,rot=90,fontsize=12,legend=False)
 		# One roles images per server
 		image_path = f'./assets/role_charts/{ctx.guild.id}.png'
+		x_vals = range(0, len(data_frame.keys()))
+		plt.xticks(x_vals, data_frame.keys())
 		plt.tight_layout()
 		plt.savefig(image_path)
 		await ctx.message.author.send(f'{ctx.guild.name} roles chart', file=File(image_path))
