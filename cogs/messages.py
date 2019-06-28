@@ -1,6 +1,6 @@
 from asyncio import sleep
 
-from discord import Embed, Member, TextChannel
+from discord import Embed, TextChannel, User
 from discord.ext import commands
 
 
@@ -11,7 +11,7 @@ class Messages(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(manage_messages=True)
-    async def purge(self, ctx, limit: int, target: Member = None):
+    async def purge(self, ctx, limit: int, target: User = None):
         """Remove the specified amount of messages"""
         await ctx.message.delete()
         if target is None:
