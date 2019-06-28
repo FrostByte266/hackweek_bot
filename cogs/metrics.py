@@ -20,9 +20,10 @@ class Metrics(commands.Cog):
 		# Create plot
 		plot_range = range(num_roles)
 		data_frame = DataFrame.from_dict(roles_dict).sort_values(by=0,axis=1,ascending=False).transpose()
-		data_frame.plot(title=f"{ctx.guild.name} roles on {datetime.today().strftime('%Y-%m-%d')}",kind='bar', width = .2,rot=90,fontsize=12,legend=False,figsize=(80,len(data_frame.columns)*2))
+		data_frame.plot(title=f"{ctx.guild.name} roles on {datetime.today().strftime('%Y-%m-%d')}",kind='bar', width = .2,rot=90,fontsize=12,legend=False)
 		# One roles images per server
 		image_path = f'./assets/role_charts/{ctx.guild.id}.png'
+		plt.draw()
 		plt.tight_layout()
 		plt.savefig(image_path)
 		await ctx.message.author.send(f'{ctx.guild.name} roles chart', file=File(image_path))
