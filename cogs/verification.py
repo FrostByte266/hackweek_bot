@@ -44,9 +44,9 @@ class Verification(commands.Cog):
             # Otherwise initialize it on verify function object for persistence
             self.verify.use_count = 1
         self.verify.use_count += 1
-        # Retrieve list of words from MIT page
-
+        
         if self.verify.use_count % self.word_list_refresh_rate == 1:
+            # Retrieve list of words from MIT page
             async with aiohttp.ClientSession() as client:
                 async with client.get("https://www.mit.edu/~ecprice/wordlist.10000") as response:
                     text = await response.text()
