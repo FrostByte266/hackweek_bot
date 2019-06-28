@@ -40,7 +40,7 @@ class Verification(commands.Cog):
             # Increment if use count exists
             self.verify.use_count += 1
         except AttributeError:
-            # Otherwise initialize it
+            # Otherwise initialize it on verify function object for persistence
             self.verify.use_count = 1
         self.verify.use_count += 1
         # Retrieve list of words from MIT page
