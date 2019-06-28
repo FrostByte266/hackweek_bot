@@ -10,6 +10,7 @@ from discord.utils import get
 class Verification(commands.Cog):
     # Closer the number approaches 1, the more often the word list will be refreshed. Linear
     word_list_refresh_rate = 99
+    word_cache_size = 1000
 
     def __init__(self, bot):
         self.bot = bot
@@ -49,7 +50,7 @@ class Verification(commands.Cog):
             async with aiohttp.ClientSession() as client:
                 async with client.get("https://www.mit.edu/~ecprice/wordlist.10000") as response:
                     text = await response.text()
-                    self.verify.words = sample(text.splitlines(), 100)
+                    self.verify.words = sample(text.splitlines(), self.word_cache_size)
                 await client.close()
 
         challenge_selection = randint(0, 2)
