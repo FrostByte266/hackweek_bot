@@ -8,8 +8,9 @@ from discord.utils import get
 
 
 class Verification(commands.Cog):
-    #Closer the number approaches 1, the more often the word list will be refreshed. Linear
+    # Closer the number approaches 1, the more often the word list will be refreshed. Linear
     word_list_refresh_rate = 99
+
     def __init__(self, bot):
         self.bot = bot
         self.config_full = json.loads(open('config.json').read())
@@ -34,18 +35,21 @@ class Verification(commands.Cog):
 
     @commands.command()
     async def verify(self, ctx):
-        try:
-            self.verify.use_count+=1
-        except Exception as e:
-            self.verify.use_count=1
         """Verify yourself (the bot will DM you)"""
+        try:
+            # Increment if use count exists
+            self.verify.use_count += 1
+        except AttributeError:
+            # Otherwise initialize it
+            self.verify.use_count = 1
+        self.verify.use_count += 1
         # Retrieve list of words from MIT page
 
-        if self.verify.use_count%self.word_list_refresh_rate==1:
+        if self.verify.use_count % self.word_list_refresh_rate == 1:
             async with aiohttp.ClientSession() as client:
                 async with client.get("https://www.mit.edu/~ecprice/wordlist.10000") as response:
                     text = await response.text()
-                    self.verify.words = sample(text.splitlines(),100)
+                    self.verify.words = sample(text.splitlines(), 100)
                 await client.close()
 
         challenge_selection = randint(0, 2)
@@ -88,7 +92,7 @@ class Verification(commands.Cog):
     @verify.error
     async def verify_error(self, ctx, error):
         if isinstance(error, commands.CommandInvokeError):
-            await ctx.message.author.send("Command timeout! Please rerun the command to verify.")
+            await ctx.message.author.send(f"Command timeout! Please rerun the command to verify. {error}")
 
 
 def setup(bot):
