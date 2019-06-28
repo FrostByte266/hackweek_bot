@@ -46,8 +46,10 @@ class IncidentReport:
 async def handle_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send('You have not entered all required parameters, use b!help <command> for a list of all parameters')
-    if isinstance(error, commands.BadArgument):
+    elif isinstance(error, commands.BadArgument):
         await ctx.send("User not found! Double check you entered the correct details!")
+    elif isinstance(error, commands.MissingPermissions):
+        await ctx.send('You are missing the required permissions')
 
 
 class Punishment(commands.Cog):
@@ -108,6 +110,10 @@ class Punishment(commands.Cog):
         if reporting_enabled:
             report_channel = get(ctx.message.guild.text_channels, id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"])
             await report_channel.send(embed=receipt)
+
+    @hackban.error
+    async def hackban_error(self, ctx, error):
+        await handle_error(ctx, error)
 
     @commands.command()
     @commands.has_permissions(ban_members=True)
