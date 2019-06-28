@@ -51,7 +51,7 @@ async def on_member_join(member):
     config_full = json.loads(open('config.json', 'r').read())
     config = config_full[str(member.guild.id)]
     verification_enabled = True if config["verification_channel"] is not None else False
-    if verification_enabled:
+    if verification_enabled and not member.bot:
         role = get(member.guild.roles, id=config["verification_role"])
         await member.add_roles(role)
 
