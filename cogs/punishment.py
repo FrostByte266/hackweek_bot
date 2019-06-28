@@ -131,15 +131,53 @@ class Punishment(commands.Cog):
         await handle_error(ctx, error)
 
     @commands.command()
-    async def lookup(self, ctx, id_num: str = None, user: User = None):
+    async def lookup(self, ctx, *, args: str):
         config = self.config_full[str(ctx.message.guild.id)]
         reports = config["reports"]
-        if user is None and id_num is None:
-            # No parameters have been provided, raise exception
-            raise commands.MissingRequiredArgument
-        elif user is None and id_num is not None:
-            # Report ID has been provided
-            report = reports.get(id_num, None)
+        length_args = len(args.strip())
+        if length_args == 18:
+            # User ID has been provided
+            user = await self.bot.fetch_user(args)
+            user_name = f'{user.name}#{user.discriminator}'
+            results = []
+            reports = config["reports"]
+            for report_iter in config["reports"]:
+                report_num = str(report_iter)
+                if reports[report_num]["issuer"] == user_name or reports[report_num]["subject"] == user_name:
+                    results.append(report_num)
+            if results:
+                for result in results:
+                    embed = Embed(title='Incident Report', description=f'Case Number: {reports[result]["report_id"]}', color=0xff0000)
+                    embed.add_field(name="Issued By:", value=reports[result]["issuer"])
+                    embed.add_field(name="Subject:", value=reports[result]["subject"])
+                    embed.add_field(name='Action', value=reports[result]["action"])
+                    embed.add_field(name='Reason', value=reports[result]["body"])
+                    await ctx.send(embed=embed)
+            else:
+                await ctx.send('No reports found with the user provided')
+        elif ctx.message.mentions:
+            # User provided via mention
+            user = ctx.message.mentions[0]
+            user_name = f'{user.name}#{user.discriminator}'
+            results = []
+            reports = config["reports"]
+            for report_iter in config["reports"]:
+                report_num = str(report_iter)
+                if reports[report_num]["subject"] == user_name:
+                    results.append(report_num)
+            if results:
+                for result in results:
+                    embed = Embed(title='Incident Report', description=f'Case Number: {reports[result]["report_id"]}', color=0xff0000)
+                    embed.add_field(name="Issued By:", value=reports[result]["issuer"])
+                    embed.add_field(name="Subject:", value=reports[result]["subject"])
+                    embed.add_field(name='Action', value=reports[result]["action"])
+                    embed.add_field(name='Reason', value=reports[result]["body"])
+                    await ctx.send(embed=embed)
+            else:
+                await ctx.send('No reports found with the user provided')
+        else:
+            # Looking up by ID as no users were mentioned
+            report = reports.get(args, None)
             if report is not None:
                 embed = Embed(title='Incident Report', description=f'Case Number: {report["report_id"]}', color=0xff0000)
                 embed.add_field(name="Issued By:", value=report["issuer"])
@@ -149,25 +187,6 @@ class Punishment(commands.Cog):
                 await ctx.send(embed=embed)
             else:
                 await ctx.send('No reports found with the ID number provided')
-        else:
-            # User has been provided
-            user_name = f'{user.name}#{user.discriminator}'
-            result = None
-            reports = config["reports"]
-            for report_iter in config["reports"]:
-                report_num = str(report_iter)
-                if reports[report_num]["issuer"] == user_name or reports[report_num]["subject"] == user_name:
-                    result = report_num
-                    break
-            if result is not None:
-                embed = Embed(title='Incident Report', description=f'Case Number: {reports[result]["report_id"]}', color=0xff0000)
-                embed.add_field(name="Issued By:", value=reports[result]["issuer"])
-                embed.add_field(name="Subject:", value=reports[result]["subject"])
-                embed.add_field(name='Action', value=reports[result]["action"])
-                embed.add_field(name='Reason', value=reports[result]["body"])
-                await ctx.send(embed=embed)
-            else:
-                await ctx.send('No reports found with the user provided')
 
 
 def setup(bot):
