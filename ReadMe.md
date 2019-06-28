@@ -8,7 +8,7 @@ Includes auto incident reporting feature, a verification feature with three vari
 
  
  **Terms:**
-     Discord, Bot, Python, Moderation
+Discord, Bot, Python, Moderation
 
 <b>Prerequisites</b>
 * [discord.py](https://github.com/Rapptz/discord.py)
