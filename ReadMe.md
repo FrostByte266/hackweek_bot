@@ -14,7 +14,7 @@
     discord
     pandas
     matplotlib
-    (Any other third party library dependencies)
+    aiohttp
 
 <b>Commands and Features</b>
 
