@@ -16,6 +16,7 @@ class Verification(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_guild=True)
     async def verification(self, ctx, state: bool):
+        """Enable or disable the verification system"""
         config = self.config_full[str(ctx.message.guild.id)]
         if state is True and config["verification_channel"] is None:
             channel = await ctx.message.guild.create_text_channel(name="Verification")
