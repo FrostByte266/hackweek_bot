@@ -69,15 +69,19 @@ class Punishment(commands.Cog):
 		await ctx.message.author.send(
 			f'User: {target.name}#{target.discriminator} has been kicked. The incident report is attached below:',
 			embed=receipt)
-		await target.send(f'You have been kicked from {ctx.message.guild}. The incident report is attached below:',
-						embed=receipt)
+		await target.send(
+							f'You have been kicked from {ctx.message.guild}. The incident report is attached below:',
+							embed=receipt
+						)
 		await ctx.message.guild.kick(target, reason=reason)
 		await ctx.send(f'User: {target.name}#{target.discriminator} has been kicked. Report ID: {report.report_number}')
 		reporting_enabled = True if self.config_full[str(ctx.message.guild.id)][
 										"reporting_channel"] is not None else False
 		if reporting_enabled:
-			report_channel = get(ctx.message.guild.text_channels,
-								id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"])
+			report_channel = get(
+									ctx.message.guild.text_channels,
+									id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"]
+								)
 			await report_channel.send(embed=receipt)
 
 	@kick.error
@@ -94,15 +98,19 @@ class Punishment(commands.Cog):
 		await ctx.message.author.send(
 			f'User: {target.name}#{target.discriminator} has been banned. The incident report is attached below:',
 			embed=receipt)
-		await target.send(f'You have been banned from {ctx.message.guild}. The incident report is attached below:',
-						embed=receipt)
+		await target.send(
+							f'You have been banned from {ctx.message.guild}. The incident report is attached below:',
+							embed=receipt
+						)
 		await ctx.message.guild.ban(target, reason=reason)
 		await ctx.send(f'User: {target.name}#{target.discriminator} has been banned. Report ID: {report.report_number}')
 		reporting_enabled = True if self.config_full[str(ctx.message.guild.id)][
 										"reporting_channel"] is not None else False
 		if reporting_enabled:
-			report_channel = get(ctx.message.guild.text_channels,
-								id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"])
+			report_channel = get(
+									ctx.message.guild.text_channels,
+									id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"]
+								)
 			await report_channel.send(embed=receipt)
 
 	@ban.error
@@ -124,8 +132,10 @@ class Punishment(commands.Cog):
 		reporting_enabled = True if self.config_full[str(ctx.message.guild.id)][
 										"reporting_channel"] is not None else False
 		if reporting_enabled:
-			report_channel = get(ctx.message.guild.text_channels,
-								id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"])
+			report_channel = get(
+									ctx.message.guild.text_channels,
+									id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"]
+								)
 			await report_channel.send(embed=receipt)
 
 	@hackban.error
@@ -149,8 +159,10 @@ class Punishment(commands.Cog):
 		reporting_enabled = True if self.config_full[str(ctx.message.guild.id)][
 										"reporting_channel"] is not None else False
 		if reporting_enabled:
-			report_channel = get(ctx.message.guild.text_channels,
-								id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"])
+			report_channel = get(
+									ctx.message.guild.text_channels,
+									id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"]
+								)
 			await report_channel.send(embed=receipt)
 
 	@unban.error
@@ -169,8 +181,10 @@ class Punishment(commands.Cog):
 		reporting_enabled = True if self.config_full[str(ctx.message.guild.id)][
 										"reporting_channel"] is not None else False
 		if reporting_enabled:
-			report_channel = get(ctx.message.guild.text_channels,
-								id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"])
+			report_channel = get(
+									ctx.message.guild.text_channels,
+									id=self.config_full[str(ctx.message.guild.id)]["reporting_channel"]
+								)
 			await report_channel.send(embed=receipt)
 
 	@report.error

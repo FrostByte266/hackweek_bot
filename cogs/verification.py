@@ -62,10 +62,12 @@ class Verification(commands.Cog):
 
 		# Image color challenge
 		if challenge_selection == 2:
-			image_answer_pairing = [['blue', './assets/blue.jpg'],
-									['red', './assets/red.jpg'],
-									['white', './assets/white.jpg'],
-									['black', './assets/black.jpg']]
+			image_answer_pairing = [
+										['blue', './assets/blue.jpg'],
+										['red', './assets/red.jpg'],
+										['white', './assets/white.jpg'],
+										['black', './assets/black.jpg']
+									]
 			image_selection = image_answer_pairing[randint(0, 3)]
 		# Math challenge
 		elif challenge_selection == 1:
