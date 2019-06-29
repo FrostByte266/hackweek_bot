@@ -8,6 +8,7 @@ from discord.utils import get
 
 bot = commands.Bot(command_prefix="b!")
 
+
 @bot.event
 async def on_ready():
 	print("Ready")
@@ -106,9 +107,21 @@ async def on_guild_remove(guild):
 	json.dump(config, open('config.json', 'w'), indent=2, separators=(',', ': '))
 
 
-for file in os.listdir("./cogs"):
-	if file.endswith('.py'):
-		bot.load_extension(f'cogs.{file[:-3]}')
+if __name__ == '__main__':
+	token = None
+	try:
+		# Attempt to fetch the token from config.json
+		token = json.loads(open('config.json', 'r').read())['token']
+	except FileNotFoundError:
+		# If config.json does not exist, it must be the first time starting the bot, run through configuration
+		token = input('It appears this is the first time running the bot. Please enter your bot\'s token: ')
+		initial_config = {"token": token}
+		json.dump(initial_config, open('config.json', 'w'), indent=2, separators=(',', ': '))
+		os.mkdir('./assets/network_charts')
+		os.mkdir('./assets/role_charts')
+	finally:
+		for file in os.listdir('./cogs'):
+			if file.endswith('.py'):
+				bot.load_extension(f'cogs.{file[:-3]}')
+		bot.run(token)
 
-token = json.loads(open('config.json', 'r').read())['token']
-bot.run(token)
