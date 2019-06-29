@@ -8,7 +8,6 @@ from discord.utils import get
 
 bot = commands.Bot(command_prefix="b!")
 
-
 @bot.event
 async def on_ready():
 	print("Ready")
@@ -18,11 +17,11 @@ async def on_ready():
 		if str(server.id) not in config:
 			# Add empty config to JSON + initialize all win/loss stats for users
 			config[server.id] = {
-				"verification_channel": None,
-				"verification_role": None,
-				"reporting_channel": None,
-				"reports": {}
-			}
+									"verification_channel": None,
+									"verification_role": None,
+									"reporting_channel": None,
+									"reports": {}
+								}
 			# Save to config file
 			json.dump(config, open('config.json', 'w'), indent=2, separators=(',', ': '))
 
@@ -39,8 +38,7 @@ async def on_message(message):
 		# Check if the user is attempting to verify, if not then delete the message and send them a notice in DM
 		verify_channel = config['verification_channel']
 		unverified_role = get(message.author.guild.roles, name="Unverified")
-		if unverified_role in message.author.roles and (
-				message.channel.id != verify_channel and message.content != "b!verify"):
+		if unverified_role in message.author.roles and (message.channel.id != verify_channel and message.content != "b!verify"):
 			await message.channel.purge(limit=1)
 			await message.author.send(
 				"You have not verified your account, please type 'b!verify' in your server's verification channel")
