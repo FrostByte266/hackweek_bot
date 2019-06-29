@@ -21,9 +21,7 @@ class Metrics(commands.Cog):
 		df[:] = int(0)
 
 		for member in ctx.guild.members:
-			member_roles = [role.name for role in member.roles]
-			if '@everyone' in member_roles:
-				member_roles.remove('@everyone')
+			member_roles = [role.name for role in member.roles].remove('@everyone')
 			for role in member_roles:
 				for co_role in member_roles:
 					df[role][co_role] += 1
