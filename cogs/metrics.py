@@ -20,14 +20,16 @@ class Metrics(commands.Cog):
 		df = DataFrame(columns=roles, index=roles)
 		df[:] = int(0)
 
-		for member in ctx.guild.members:
-			member_roles = [role.name for role in member.roles].remove('@everyone')
-			for role in member_roles:
-				for co_role in member_roles:
-					df[role][co_role] += 1
-					df[co_role][role] += 1
-
-		max_connection_weight = df.max().max()
+			for member in ctx.guild.members:
+				member_roles = [role.name for role in member.roles].remove('@everyone')
+				for role in member_roles:
+					for co_role in member_roles:
+						df[role][co_role] += 1
+						df[co_role][role] += 1
+		try:
+			max_connection_weight = df.max().max()
+		except Exception as e:
+			print("Testing catch. Error occurred")
 
 		edge_list = []
 
