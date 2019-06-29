@@ -1,5 +1,6 @@
 config.json
 /assets/role_charts/*.png
+/assets/network_charts/*.png
 venv/
 .idea/
 cogs/__pycache__
