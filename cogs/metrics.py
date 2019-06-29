@@ -26,15 +26,12 @@ class Metrics(commands.Cog):
 				member_roles.remove('@everyone')
 			for role in member_roles:
 				for co_role in member_roles:
-					df[role][co_role] += 1
-					df[co_role][role] += 1
-		try:
+					df.loc[role,co_role] += 1
+					df.loc[co_role,role] += 1
+
 			max_connection_weight = df.max().max()
-		except Exception as e:
-			print("Testing catch. Error occurred")
 
 		edge_list = []
-
 		for index, row in df.iterrows():
 			i = 0
 			for col in row:
