@@ -21,14 +21,13 @@ Discord, Bot, Python, Moderation
 **Features**
 
 * Role statistics - 
-    - b!plot - Generate a plot of how many people are assigned to each role in the server
-        
+    - b!plot - Generate a plot of how many people are assigned to each role in the server     
         example from Coding Community Server:
-        ![alttext]()
-    - b!networkplot - Generate a network graph of role co-occurrence.
-        
+        ![alttext](https://github.com/FrostByte266/hackweek_bot/blob/dev/assets/Coding_Community_role_chart.png)
+    
+    - b!networkplot - Generate a network graph of role co-occurrence.     
         example from Coding Community Server:
-        ![alttext]()
+        ![alttext](https://github.com/FrostByte266/hackweek_bot/blob/dev/assets/Coding_Community_role_co-occurrence_graph.png)
 * Verification - Users will join as 'unverified', to verify users will be given one of three different types of challenge prompts that they must successfully answer to become a verified member
     
     - b!verification <true/false> - Enable or disable the system, if enabled, creates a channel and role, auto deletes when the feature is disabled
