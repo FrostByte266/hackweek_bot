@@ -1,5 +1,5 @@
 # Discord hackweek bot
-![alttext](https://github.com/FrostByte266/hackweek_bot/blob/dev/assets/Japanese%20Animals.png = 128x128)
+![](https://github.com/FrostByte266/hackweek_bot/blob/dev/assets/Japanese%20Animals.png = 128x128)
 
 **Hackweek Team:**
 Nerd#0614 ,caladanbrood#5363, bAnanaS#6056, MidLoki#6680
