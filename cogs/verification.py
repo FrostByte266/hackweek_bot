@@ -12,7 +12,7 @@ class Verification(commands.Cog):
 
 	def __init__(self, bot):
 		self.bot = bot
-		self.config_full = json.loads(open('config.json').read())
+		self.config_full = json.loads(open('assets/config.json').read())
 		self.word_list_refresh_rate = 99
 		self.word_cache_size = 1000
 

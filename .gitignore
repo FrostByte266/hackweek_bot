@@ -1,4 +1,4 @@
-config.json
+/assets/config.json
 /assets/role_charts/*.png
 /assets/network_charts/*.png
 venv/

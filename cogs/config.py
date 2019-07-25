@@ -8,7 +8,7 @@ class Config(commands.Cog):
 
 	def __init__(self, bot):
 		self.bot = bot
-		self.config_full = json.loads(open('config.json').read())
+		self.config_full = json.loads(open('assets/config.json').read())
 
 	@commands.command()
 	@commands.has_permissions(manage_guild=True)

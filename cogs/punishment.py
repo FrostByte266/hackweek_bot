@@ -14,7 +14,7 @@ class IncidentReport:
 		self.subject = subject
 		self.body = body
 		self.server = server
-		self.config_full = json.loads(open('config.json').read())
+		self.config_full = json.loads(open('assets/config.json').read())
 		self.config = self.config_full[str(self.server.id)]
 		self.report_number = self.next_report_number()
 		self.finalize_report()
@@ -31,7 +31,7 @@ class IncidentReport:
 			"body": self.body
 		}
 		self.config["reports"].update({self.report_number: report})
-		json.dump(self.config_full, open('config.json', 'w'), indent=2, separators=(',', ': '))
+		json.dump(self.config_full, open('assets/config.json', 'w'), indent=2, separators=(',', ': '))
 
 	def generate_receipt(self):
 		embed = Embed(title='Incident Report', description=f'Case Number: {self.report_number}', color=0xff0000)
@@ -57,7 +57,7 @@ class Punishment(commands.Cog):
 
 	def __init__(self, bot):
 		self.bot = bot
-		self.config_full = json.loads(open('config.json').read())
+		self.config_full = json.loads(open('assets/config.json').read())
 
 	@commands.command()
 	@commands.has_permissions(kick_members=True)

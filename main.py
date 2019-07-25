@@ -114,9 +114,11 @@ if __name__ == '__main__':
 		token = json.loads(open('config.json', 'r').read())['token']
 	except FileNotFoundError:
 		# If config.json does not exist, it must be the first time starting the bot, run through configuration
-		token = input('It appears this is the first time running the bot. Please enter your bot\'s token: ')
+		# If we are running from a docker container, fetch the token through an environment variable, otherwise, prompt the user to enter it
+		environment = os.environ.get('BOT_TOKEN', None)
+		token = environment if environment is not None else input('It appears this is the first time running the bot. Please enter your bot\'s token: ')
 		initial_config = {"token": token}
-		json.dump(initial_config, open('config.json', 'w'), indent=2, separators=(',', ': '))
+		json.dump(initial_config, open('assets/config.json', 'w'), indent=2, separators=(',', ': '))
 		os.mkdir('./assets/network_charts')
 		os.mkdir('./assets/role_charts')
 	finally:
@@ -124,4 +126,3 @@ if __name__ == '__main__':
 			if file.endswith('.py'):
 				bot.load_extension(f'cogs.{file[:-3]}')
 		bot.run(token)
-
