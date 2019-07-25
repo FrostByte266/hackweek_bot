@@ -97,21 +97,21 @@ async def on_guild_join(guild):
 		"reports": {}
 	}
 	# Save to config file
-	json.dump(config, open('config.json', 'w'), indent=2, separators=(',', ': '))
+	json.dump(config, open('assets/config.json', 'w'), indent=2, separators=(',', ': '))
 
 
 @bot.event
 async def on_guild_remove(guild):
-	config = json.loads(open('config.json', 'r').read())
+	config = json.loads(open('assets/config.json', 'r').read())
 	config.pop(str(guild.id))
-	json.dump(config, open('config.json', 'w'), indent=2, separators=(',', ': '))
+	json.dump(config, open('assets/config.json', 'w'), indent=2, separators=(',', ': '))
 
 
 if __name__ == '__main__':
 	token = None
 	try:
 		# Attempt to fetch the token from config.json
-		token = json.loads(open('config.json', 'r').read())['token']
+		token = json.loads(open('assets/config.json', 'r').read())['token']
 	except FileNotFoundError:
 		# If config.json does not exist, it must be the first time starting the bot, run through configuration
 		# If we are running from a docker container, fetch the token through an environment variable, otherwise, prompt the user to enter it
