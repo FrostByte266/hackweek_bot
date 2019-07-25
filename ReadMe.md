@@ -20,6 +20,7 @@ Discord, Bot, Python, Moderation
 * [Docker (optional but highly recommended)](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-engine---community-1)
 
 **Running the bot (with docker)**
+
   We recommend running this bot using docker. To setup and run the bot with docker:
   * Grant execution permissions to the setup and start-bot-container scripts
   ```bash
@@ -36,6 +37,7 @@ Discord, Bot, Python, Moderation
   ```
 
   **Running the bot (without docker)**
+  
   We strongly encourage you to run this bot using docker, however if you are unable to use docker for any reason you may run the bot without docker
   * Install all dependencies with pip
   ```bash
