@@ -12,7 +12,7 @@ bot = commands.Bot(command_prefix="b!")
 @bot.event
 async def on_ready():
 	print("Ready")
-	config = json.loads(open('config.json', 'r').read())
+	config = json.loads(open('assets/config.json', 'r').read())
 	# Check if there are any new servers the bot does not have configs for
 	for server in bot.guilds:
 		if str(server.id) not in config:
