@@ -2,7 +2,7 @@
 ![alttext](https://github.com/FrostByte266/hackweek_bot/blob/master/assets/Japanese%20Animals.png)
 
 **Hackweek Team:**
-Nerd#0614 ,caladanbrood#5363, bAnanaS#6056, MidLoki#6680
+Nerd#4271 ,caladanbrood#5363, bAnanaS#6056, MidLoki#6680
 
 Discord Moderation Bot first developed for discord's HackWeek 2019 contest.
 Includes auto incident reporting feature, a verification feature with three variations, and a roles graph feature.
